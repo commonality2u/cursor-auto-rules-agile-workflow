@@ -1,0 +1,27 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Runs every 6 hours
+  workflow_dispatch:  # Allows manual triggering
+  
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
+          
+      - name: Add upstream repository
+        run: |
+          git remote add upstream ${{ github.event.repository.parent.clone_url }}
+          git fetch upstream
+          
+      - name: Sync fork with upstream
+        run: |
+          git checkout main  # or your default branch name
+          git merge upstream/main
+          git push origin main
