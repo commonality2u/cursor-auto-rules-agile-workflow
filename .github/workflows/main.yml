@@ -17,7 +17,7 @@ jobs:
           
       - name: Add upstream repository
         run: |
-          git remote add upstream ${{ github.event.repository.parent.clone_url }}
+          git remote add upstream https://github.com/bmadcode/cursor-auto-rules-agile-workflow.git
           git fetch upstream
           
       - name: Sync fork with upstream
